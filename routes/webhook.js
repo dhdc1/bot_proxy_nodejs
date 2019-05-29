@@ -29,7 +29,7 @@ const postToDialogflow = req => {
     });
 };
 
-router.post('/', async function (req, res, next) {
+router.post('/', function (req, res, next) {
     event = req.body.events[0];
     if (event.message.type == "text") {
         if (event.message.text == 'จองนัด') {
