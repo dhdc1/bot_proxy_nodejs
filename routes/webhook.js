@@ -28,6 +28,7 @@ const postToDialogflow = req => {
         body: JSON.stringify(req.body)
     });
 };
+
 router.post('/', async function (req, res, next) {
     event = req.body.events[0];
     if (event.message.type == "text") {
