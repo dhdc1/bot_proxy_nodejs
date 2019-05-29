@@ -4,7 +4,7 @@ var router = express.Router();
 var token = "IEl91F7L1MnAuHDD3kxAYgF27xXSQJW41LpAoLMf0RjuuXNBjuN5E2uhYRHPyqcUKjRSgdwWconYrYivZLmyk/ECjXV+pNwjgQQoji+ZNs1wtUwwzkz3xMOjqbabRexZUCt2vbadhK7UwZkxBs9R+gdB04t89/1O/w1cDnyilFU="
 var dialogflow = "https://bots.dialogflow.com/line/81523972-407b-4542-9d91-539f4cc95baa/webhook"
 
-const reply = (req,messages) => {
+const line_reply = (req,messages) => {
     return request({
         method: "POST",
         uri: "https://api.line.me/v2/bot/message/reply",
@@ -21,21 +21,23 @@ const reply = (req,messages) => {
 
 const postToDialogflow = req => {
     req.headers.host = "bots.dialogflow.com";
-    return request({
+    let r = request({
         method: "POST",
         uri: dialogflow,
         headers: req.headers,
         body: JSON.stringify(req.body)
     });
+    console.log('df',JSON.stringify(r))
 };
 
 router.post('/', function (req, res, next) {
+    console.log('webhook', JSON.stringify(req.headers))
     event = req.body.events[0];
     if (event.message.type == "text") {
         if (event.message.text == 'จองนัด') {
             postToDialogflow(req)
         } else {
-            reply(req,[
+            line_reply(req,[
                 {
                     'type':'text',
                     'text':'ok...1'
